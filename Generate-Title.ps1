@@ -83,7 +83,7 @@ Super Cobra Vehicle Simulator 5
     Populate-WordLists
 
     $title = ""
-    $title_style = $(Get-Random -Minimum 0 -Maximum 7)
+    $title_style = $(Get-Random -Minimum 0 -Maximum 8)
     switch ($title_style){
         #Single Noun
         0 {
@@ -166,6 +166,19 @@ Super Cobra Vehicle Simulator 5
                 $noun_1 = Generate-Noun
             }
             $title =  $verb_1 + " " +  $noun_1
+            break
+        }
+        #Noun Verb Adjective  
+        4 {
+            $noun_1 = Generate-Noun
+            $verb_1 = $GLOBAL:verbs[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:verbs.Length -1))]
+            $adjective_1 = $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
+
+            while($($noun_1 + $verb_1 + $adjective_1).length -ge 40)
+            {
+                $noun_1 = Generate-Noun
+            }
+            $title =  $noun_1 + " " + $verb_1 + $adjective_1  
             break
         }
         #Default will be "Noun Noun"
