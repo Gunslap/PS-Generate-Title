@@ -34,7 +34,7 @@ function Populate-WordLists()
 function Generate-Noun()
 {
     #Get a noun
-    $noun = $GLOBAL:nouns[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:nouns.Length -1))]
+    $noun = Get-Noun
 
     #decide if we're going to get 0,1, or 2 adjectives
     $num_adjectives = $(Get-Random -Minimum 0 -Maximum 9)
@@ -43,7 +43,7 @@ function Generate-Noun()
     if($num_adjectives -le 3)
     {
         #get one adjective
-        $adjective_1 = $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
+        $adjective_1 = Get-Adjective
         #add it before the noun
         $noun = $adjective_1 + " " + $noun
     }
@@ -51,8 +51,8 @@ function Generate-Noun()
     elseif($num_adjectives -eq 4)
     {
         #get two adjectives
-        $adjective_1 = $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
-        $adjective_2 = $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
+        $adjective_1 = Get-Adjective
+        $adjective_2 = Get-Adjective
         #add them before the noun
         $noun = $adjective_1 + " " + $adjective_2 + " " + $noun
     }
@@ -61,6 +61,22 @@ function Generate-Noun()
 
     #return the noun + adjectives string
     return $noun
+}
+#This function will return a single random Noun from the Noun array
+function Get-Noun()
+{
+    return $GLOBAL:nouns[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:nouns.Length -1))]
+}
+
+#This function will return a single random Verb from the Verb array
+function Get-Verb()
+{
+    return $GLOBAL:verbs[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:verbs.Length -1))]
+}
+#This function will return a single random Adjective from the Verb array
+function Get-Adjective()
+{
+    return $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
 }
 #endregion
 
@@ -145,7 +161,7 @@ Super Cobra Vehicle Simulator 5
         #Noun Verb Noun
         2 {
             $noun_1 = Generate-Noun
-            $verb_1 = $GLOBAL:verbs[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:verbs.Length -1))]
+            $verb_1 = Get-Verb
             $noun_2 = Generate-Noun
         
             while($($noun_1 + $verb_1 + $noun_2).length -ge 40)
@@ -158,7 +174,7 @@ Super Cobra Vehicle Simulator 5
         }
         #Verb Noun
         3 {
-            $verb_1 = $GLOBAL:verbs[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:verbs.Length -1))]
+            $verb_1 = Get-Verb
             $noun_1 = Generate-Noun
         
             while($($noun_1 + $verb_1).length -ge 40)
@@ -171,14 +187,14 @@ Super Cobra Vehicle Simulator 5
         #Noun Verb Adjective  
         4 {
             $noun_1 = Generate-Noun
-            $verb_1 = $GLOBAL:verbs[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:verbs.Length -1))]
-            $adjective_1 = $GLOBAL:adjectives[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:adjectives.Length -1))]
+            $verb_1 = Get-Verb
+            $adjective_1 = Get-Adjective
 
             while($($noun_1 + $verb_1 + $adjective_1).length -ge 40)
             {
                 $noun_1 = Generate-Noun
             }
-            $title =  $noun_1 + " " + $verb_1 + $adjective_1  
+            $title =  $noun_1 + " " + $verb_1 + " " + $adjective_1  
             break
         }
         #Default will be "Noun Noun"
@@ -186,13 +202,13 @@ Super Cobra Vehicle Simulator 5
             $noun_1 = Generate-Noun
             #We don't want the second noun to have any adjectives
             #as those are weird looking on this type so we'll pull one directly from the array:
-            $noun_2 = $GLOBAL:nouns[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:nouns.Length -1))]
+            $noun_2 = Get-Noun
             #noun_2 = Generate-Noun
             #if it's over 40 characters, it's pretty freaking long, try some new nouns!
             while($($noun_1 + " in" + $noun_2).length -ge 40)
             {
                 $noun_1 = Generate-Noun
-                $noun_2 = $GLOBAL:nouns[$(Get-Random -Minimum 0 -Maximum ($GLOBAL:nouns.Length -1))]
+                $noun_2 = Get-Noun
             }
             #Save the title to the global title variable
             $title = $noun_1 + " " + $noun_2
