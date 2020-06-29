@@ -428,3 +428,37 @@ Super Cobra Vehicle Simulator 5
     #return the completed Title
     return $title
 }
+
+# Generates a random title from the provided template
+function Generate-FromTemplate([string] $template)
+{
+    Populate-WordLists
+    #find and replace nouns
+    while ($template.Contains("Noun") -eq $true) {
+        $firstC = $template.IndexOf("Noun")
+        $lastC = $template.IndexOf("Noun") + $("Noun").Length
+        $endC = $template.Length - ($template.IndexOf("Noun") + $("Noun").Length)
+        $before = $template.Substring(0,$firstC)
+        $after = $template.Substring($lastC,$endC)
+        $template = $before + $(Get-Noun) + $after
+    }
+    #find and replace verbs
+    while ($template.Contains("Verb") -eq $true) {
+        $firstC = $template.IndexOf("Verb")
+        $lastC = $template.IndexOf("Verb") + $("Verb").Length
+        $endC = $template.Length - ($template.IndexOf("Verb") + $("Verb").Length)
+        $before = $template.Substring(0,$firstC)
+        $after = $template.Substring($lastC,$endC)
+        $template = $before + $(Get-Verb) + $after
+    }
+    #find and replace adjectives
+    while ($template.Contains("Adjective") -eq $true) {
+        $firstC = $template.IndexOf("Adjective")
+        $lastC = $template.IndexOf("Adjective") + $("Adjective").Length
+        $endC = $template.Length - ($template.IndexOf("Adjective") + $("Adjective").Length)
+        $before = $template.Substring(0,$firstC)
+        $after = $template.Substring($lastC,$endC)
+        $template = $before + $(Get-Adjective) + $after
+    }
+    return $template
+}
