@@ -408,9 +408,9 @@ Super Cobra Vehicle Simulator 5
                 $ending_addition = " for Kids!"
                 break
             }
-            #"Vengance"
+            #"Vengeance"
             16 {
-                $ending_addition = " Vengance"
+                $ending_addition = " Vengeance"
                 break
             }
              #"Deluxe"
